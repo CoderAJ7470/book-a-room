@@ -15,7 +15,7 @@ import { revalidatePath } from 'next/cache';
 import { after } from 'next/server';
 import { redirect } from 'next/navigation';
 
-async function getAllRooms() {
+async function getARoom(id) {
   try {
     const { databases } = await createAdminClient();
 
@@ -24,9 +24,10 @@ async function getAllRooms() {
      *
      * listDocuments - takes in an ID as the first argument, and the name of our collections, which in this case, is "rooms"
      */
-    const { documents: rooms } = await databases.listDocuments(
+    const room = await databases.getDocument(
       process.env.NEXT_PUBLIC_APPWRITE_DATABASE,
-      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ROOMS
+      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ROOMS,
+      id
     );
 
     // console.log('rooms: ', rooms);
@@ -37,11 +38,11 @@ async function getAllRooms() {
       console.log('called after');
     });
 
-    return rooms;
+    return room;
   } catch (error) {
-    console.log('Failed to get rooms', error);
+    console.log('Failed to get the room you wanted', error);
     redirect('/error');
   }
 }
 
-export default getAllRooms;
+export default getARoom;

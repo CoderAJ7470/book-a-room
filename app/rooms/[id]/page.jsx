@@ -2,14 +2,13 @@ import Heading from '@/components/Heading';
 import BookingForm from '@/components/BookingForm';
 import Image from 'next/image';
 import Link from 'next/link';
+import getARoom from '@/app/actions/getARoom';
 
 import { FaChevronLeft } from 'react-icons/fa';
 
-import roomData from '@/data/rooms.json';
-
 const RoomPage = async ({ params }) => {
   const { id } = await params;
-  const room = roomData.find((room) => room.$id === id);
+  const room = await getARoom(id);
 
   if (!room) {
     return <Heading title='No room was found' />;
@@ -29,7 +28,7 @@ const RoomPage = async ({ params }) => {
 
         <div className='flex flex-col sm:flex-row sm:space-x-6'>
           <Image
-            src={`/images/rooms/${room.image}`}
+            src={`/images/rooms/${room.image_url}`}
             alt={`/images/rooms/${room.name}`}
             width={400}
             height={100}
