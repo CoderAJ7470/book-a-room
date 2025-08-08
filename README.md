@@ -15,3 +15,7 @@ Kind of a "ledger" of notes as I am doing this project (stuff I encounter as I f
 
 Next to that, you will also find your Appwrite project's ID - you can click that as well to copy it and then paste it for your NEXT_PUBLIC_APPWRITE_PROJECT value, again which will be placed in your .env.local file.
 
+- Since we are using NextJS, we cannot just install the Apprwite SDK - that would be the case if we were building a single page appication (SPA). In this case, since we are using NextJS, we need to run the following command when installing Apprwite: npm i node-appwrite
+
+- Server actions: the new and improved way to do things, instead of using API routes when pulling in data from your database
+
