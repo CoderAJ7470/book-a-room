@@ -1,10 +1,33 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
+import endSession from '@/app/actions/endSession';
+import { useRouter } from 'next/navigation';
+import { useMessage } from '@/app/context/MessageContext';
 import { FaUser, FaSignInAlt, FaSignOutAlt, FaBuilding } from 'react-icons/fa';
 
 import logo from '@/assets/images/logo.svg';
 
 const Header = () => {
+  const router = useRouter();
+
+  const { showMessage } = useMessage();
+
+  const handleLogout = async () => {
+    const { success, error } = await endSession();
+
+    if (success) {
+      router.push('/login');
+    } else {
+      showMessage({
+        content: error,
+        type: 'error',
+        duration: 5000,
+      });
+    }
+  };
+
   return (
     <header className='bg-gray-100'>
       <nav className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
@@ -28,13 +51,13 @@ const Header = () => {
                 </Link>
                 {/* <!-- Logged In Only --> */}
                 <Link
-                  href='/bookings.html'
+                  href='/bookings'
                   className='rounded-md px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-700 hover:text-white'
                 >
                   Bookings
                 </Link>
                 <Link
-                  href='/add-room.html'
+                  href='/rooms/add'
                   className='rounded-md px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-700 hover:text-white'
                 >
                   Add A Room
@@ -47,30 +70,30 @@ const Header = () => {
             <div className='ml-4 flex items-center md:ml-6'>
               {/* <!-- Logged Out Only --> */}
               <Link
-                href='login.html'
+                href='/login'
                 className='mr-3 text-gray-800 hover:text-gray-600'
               >
                 <FaSignInAlt className='inline mr-1' />
                 Login
               </Link>
               <Link
-                href='register.html'
+                href='/register'
                 className='mr-3 text-gray-800 hover:text-gray-600'
               >
                 <FaUser className='inline mr-1' />
                 Register
               </Link>
-              <Link href='my-rooms.html'>
+              <Link href='/rooms/my'>
                 <FaBuilding className='inline mr-1' />
                 My Rooms
               </Link>
-              <Link
-                href='login.html'
-                className='mx-3 text-gray-800 hover:text-gray-600'
+              <button
+                onClick={handleLogout}
+                className='mx-3 text-gray-800 hover:text-gray-600 cursor-pointer'
               >
                 <FaSignOutAlt className='inline mr-1' />
                 Sign Out
-              </Link>
+              </button>
             </div>
           </div>
         </div>

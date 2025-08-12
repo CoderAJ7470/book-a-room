@@ -19,3 +19,5 @@ Next to that, you will also find your Appwrite project's ID - you can click that
 
 - Server actions: the new and improved way to do things, instead of using API routes when pulling in data from your database
 
+- We are creating middleware to protect certain routes, like the route for the Bookings page, My Rooms page, Add Rooms page etc. Middleware - essentially one or more functions that has/have access to the request/response cycle - sits between the server and client
+

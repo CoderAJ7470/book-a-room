@@ -1,0 +1,33 @@
+.message-container {
+  position: absolute;
+  top: 80px;
+  right: 10px;
+  color: white;
+  padding: 16px 24px;
+  border-radius: 4px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  transition: opacity 0.5s ease;
+  opacity: 0;
+}
+
+.message-container.showing {
+  opacity: 1;
+}
+
+.message-container.success {
+  background-color: #28a745;
+}
+
+.message-container.error {
+  background-color: #dc3545;
+}
+
+.message-container.info {
+  background-color: #17a2b8;
+}
+
+.message-container.warning {
+  background-color: #ffc107;
+  color: #212529;
+}

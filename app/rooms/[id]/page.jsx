@@ -60,7 +60,6 @@ const RoomPage = async ({ params }) => {
             </ul>
           </div>
         </div>
-
         <BookingForm />
       </div>
     </>
