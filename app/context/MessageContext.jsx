@@ -7,7 +7,7 @@ const MessageContext = createContext();
 export const MessageProvider = ({ children }) => {
   const [message, setMessage] = useState(null);
 
-  const showMessage = ({ content, type = 'info', duration = 3000 }) => {
+  const showMessage = ({ content, type = 'info', duration = 5000 }) => {
     const messageObj = { content, type, duration };
     setMessage(messageObj);
     sessionStorage.setItem('appMessage', JSON.stringify(messageObj));

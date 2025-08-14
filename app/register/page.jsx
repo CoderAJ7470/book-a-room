@@ -1,10 +1,40 @@
+'use client';
+
+import { useEffect } from 'react';
+import { useActionState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useMessage } from '../context/MessageContext';
+import createNewUser from '../actions/createNewUser';
 import Link from 'next/link';
 
 const RegisterForm = () => {
+  const [state, formAction] = useActionState(createNewUser, {});
+  const router = useRouter();
+
+  // Our custom function from the MessageContext we created to show a custom message box
+  const { showMessage } = useMessage();
+
+  useEffect(() => {
+    if (state.error) {
+      showMessage({
+        content: state.error,
+        type: 'error',
+      });
+    }
+
+    if (state.success) {
+      showMessage({
+        content: 'New user successfully registered!',
+        type: 'success',
+      });
+      router.push('/login');
+    }
+  }, [state]);
+
   return (
     <div className='flex items-center justify-center'>
       <div className='bg-white shadow-lg rounded-lg p-6 w-full max-w-sm mt-20'>
-        <form>
+        <form action={formAction}>
           <h2 className='text-2xl font-bold text-center text-gray-800 mb-6'>
             Register
           </h2>
@@ -21,7 +51,6 @@ const RegisterForm = () => {
               id='name'
               name='name'
               className='border rounded w-full py-2 px-3'
-              required
             />
           </div>
 

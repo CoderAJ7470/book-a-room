@@ -3,6 +3,7 @@
 import { useEffect, useActionState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useMessage } from '@/app/context/MessageContext';
+import { useAuth } from '../context/authContext';
 import Link from 'next/link';
 
 import createSession from '../actions/createSession';
@@ -11,6 +12,7 @@ const LoginForm = () => {
   // useActionState in React 19 and higher; previously would have called
   // useFormState; {} = initial state
   const [state, formAction] = useActionState(createSession, {});
+  const { isAuthenticated, setIsAuthenticated } = useAuth();
 
   const { showMessage } = useMessage();
 
@@ -21,7 +23,6 @@ const LoginForm = () => {
       showMessage({
         content: state.error,
         type: 'error',
-        duration: 5000,
       });
     }
 
@@ -29,8 +30,8 @@ const LoginForm = () => {
       showMessage({
         content: 'Logged in successfully!',
         type: 'success',
-        duration: 5000,
       });
+      setIsAuthenticated(true);
       router.push('/');
     }
   }, [state]);
@@ -55,6 +56,7 @@ const LoginForm = () => {
               id='email'
               name='email'
               className='border rounded w-full py-2 px-3'
+              required
             />
           </div>
 
@@ -70,6 +72,7 @@ const LoginForm = () => {
               id='password'
               name='password'
               className='border rounded w-full py-2 px-3'
+              required
             />
           </div>
 
