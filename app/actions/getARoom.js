@@ -35,7 +35,6 @@ async function getARoom(id) {
     // Revalidate the cache for this path
     after(() => {
       revalidatePath('/', 'layout');
-      console.log('called after');
     });
 
     return room;
