@@ -11,8 +11,6 @@
  * redirect - a function from next/navigation that will allow a re-direct to any page in the app
  */
 import { createAdminClient } from '@/config/appwrite';
-import { revalidatePath } from 'next/cache';
-import { after } from 'next/server';
 import { redirect } from 'next/navigation';
 
 async function getAllRooms() {
@@ -30,11 +28,6 @@ async function getAllRooms() {
     );
 
     // console.log('rooms: ', rooms);
-
-    // Revalidate the cache for this path
-    after(() => {
-      revalidatePath('/', 'layout');
-    });
 
     return rooms;
   } catch (error) {

@@ -1,12 +1,21 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import noPhotoPlaceholder from '@/public/images/no-image.jpg';
+
 const RoomCard = ({ room }) => {
+  const bucketID = process.env.NEXT_PUBLIC_APPWRITE_STORAGE_BUCKET_ROOMS;
+  const projectID = process.env.NEXT_PUBLIC_APPWRITE_PROJECT;
+
+  const imageURL = `https://nyc.cloud.appwrite.io/v1/storage/buckets/${bucketID}/files/${room.image_id}/view?project=${projectID}`;
+
+  const imageSrc = room.image_id ? imageURL : noPhotoPlaceholder;
+
   return (
     <div className='bg-white shadow rounded-lg p-4 mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center'>
       <div className='flex flex-col sm:flex-row sm:space-x-4'>
         <Image
-          src={`/images/rooms/${room.image_url}`}
+          src={imageSrc}
           width={400}
           height={100}
           alt={room.name}

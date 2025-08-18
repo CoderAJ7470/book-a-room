@@ -208,7 +208,7 @@ const AddRoom = () => {
           <div className='flex flex-col gap-5'>
             <button
               type='submit'
-              className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700'
+              className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 cursor-pointer'
             >
               Save
             </button>

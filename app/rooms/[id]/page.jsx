@@ -5,14 +5,21 @@ import Link from 'next/link';
 import getARoom from '@/app/actions/getARoom';
 
 import { FaChevronLeft } from 'react-icons/fa';
+import noPhotoPlaceholder from '@/public/images/no-image.jpg';
 
 const RoomPage = async ({ params }) => {
   const { id } = await params;
   const room = await getARoom(id);
+  const bucketID = process.env.NEXT_PUBLIC_APPWRITE_STORAGE_BUCKET_ROOMS;
+  const projectID = process.env.NEXT_PUBLIC_APPWRITE_PROJECT;
 
   if (!room) {
     return <Heading title='No room was found' />;
   }
+
+  const imageURL = `https://nyc.cloud.appwrite.io/v1/storage/buckets/${bucketID}/files/${room.image_id}/view?project=${projectID}`;
+
+  const imageSrc = room.image_id ? imageURL : noPhotoPlaceholder;
 
   return (
     <>
@@ -28,7 +35,7 @@ const RoomPage = async ({ params }) => {
 
         <div className='flex flex-col sm:flex-row sm:space-x-6'>
           <Image
-            src={`/images/rooms/${room.image_url}`}
+            src={imageSrc}
             alt={`/images/rooms/${room.name}`}
             width={400}
             height={100}
@@ -45,7 +52,7 @@ const RoomPage = async ({ params }) => {
               </li>
               <li>
                 <span className='font-semibold text-gray-800'>
-                  Availability:
+                  Availability:&nbsp;
                 </span>
                 {room.availability}
               </li>
