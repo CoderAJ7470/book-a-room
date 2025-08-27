@@ -1,4 +1,4 @@
-A room-booking app I made by following a video on the Traversy Media channel on Youtube.
+A room-booking app I made by following [this video](https://www.youtube.com/watch?v=l9zh0pqEHyc) on the Traversy Media channel on Youtube.
 
 This has been built with React, Next.js, Appwrite and Tailwind CSS.
 
