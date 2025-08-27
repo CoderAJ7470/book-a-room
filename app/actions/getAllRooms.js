@@ -5,9 +5,6 @@
 /**
  * Couple of notes about the import statements below
  *
- * revalidatePath - This updates the cache, so e.g. if we add a room and get re-directed back
- * to the rooms page, it will appear without us having to refresh the page
- *
  * redirect - a function from next/navigation that will allow a re-direct to any page in the app
  */
 import { createAdminClient } from '@/config/appwrite';

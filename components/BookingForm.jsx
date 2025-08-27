@@ -1,8 +1,38 @@
-const BookingForm = () => {
+'use client';
+
+import { useEffect, useActionState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useMessage } from '@/app/context/MessageContext';
+import bookRoom from '@/app/actions/bookRoom';
+
+const BookingForm = ({ room }) => {
+  const [state, formAction] = useActionState(bookRoom, {});
+
+  const router = useRouter();
+  const { showMessage } = useMessage();
+
+  useEffect(() => {
+    if (state.error) {
+      showMessage({
+        content: state.error,
+        type: 'error',
+      });
+    }
+
+    if (state.success) {
+      showMessage({
+        content: 'The room was booked successfully!',
+        type: 'success',
+      });
+      router.push('/bookings');
+    }
+  }, [state]);
+
   return (
     <div className='mt-6'>
       <h2 className='text-xl font-bold'>Book this Room</h2>
-      <form className='mt-4'>
+      <form className='mt-4' action={formAction}>
+        <input type='hidden' name='room_id' value={room.$id} />
         <div className='grid grid-cols-1 sm:grid-cols-2 gap-6'>
           <div>
             <label
@@ -69,7 +99,7 @@ const BookingForm = () => {
         <div className='mt-6'>
           <button
             type='submit'
-            className='w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800'
+            className='w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 cursor-pointer'
           >
             Book this room
           </button>
