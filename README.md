@@ -36,7 +36,7 @@ There are additional minor changes regarding the keys - keep reading below 🙃
     - Once in bookRoom.js, after we create the new booking. It works just fine here and no errors are thrown
     - Also in getAllRooms.js - here we call it twice, once to revalidate the cache for the /rooms/my path, and once again for the home path (/). And again, no errors are thrown and it works fine. I am not sure why it works in these two files but not in createNewRoom.js. Will be a research excercise for sure. If I find the root cause of the issue, I will try to remember to update this file with my findings.
 
-- # Some notes about the Bookings section of the tutorial (begins at 3:08:00):
+- ## Some notes about the Bookings section of the tutorial (begins at 3:08:00):
   - Appwrite stores the time you send it (in this case, from the time input fields) in UTC time. If you do not ensure to first convert that time to local time using the Date constructor, the time you choose from those fields will be converted to UTC - the difference of your local time zone plus or minus UTC. E.g. if you choose 11:00 AM as the check-in time when you go to book a room, AND your time zone is US Central, the time that's actually getting stored as local time will be 6:00 AM, as currently we are in Daylight savings time (CDT). To prevent this from occurring, you have to pass the time chosen to Date i.e. create a new Date. See bookRoom.js for more clarity.
   - Similarly, the time you get from Appwrite when you want to show the check-in/check-out times in local time will again be in local time + or - UTC. You will again have to do some time-conversion stuff to get the time in local time format. See MyBookingsCard.jsx to see how to do this properly.
 
