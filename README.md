@@ -40,4 +40,28 @@ There are additional minor changes regarding the keys - keep reading below 🙃
 
 - Appwrite stores the time you send it (in this case, from the time input fields) in UTC time. If you do not ensure to first convert that time to local time using the Date constructor, the time you choose from those fields will be converted to UTC - the difference of your local time zone plus or minus UTC. E.g. if you choose 11:00 AM as the check-in time when you go to book a room, AND your time zone is US Central, the time that's actually getting stored as local time will be 6:00 AM, as currently we are in Daylight savings time (CDT). To prevent this from occurring, you have to pass the time chosen to Date i.e. create a new Date. See bookRoom.js for more clarity.
 - Similarly, the time you get from Appwrite when you want to show the check-in/check-out times in local time will again be in local time + or - UTC. You will again have to do some time-conversion stuff to get the time in local time format. See MyBookingsCard.jsx to see how to do this properly.
+- To format the date returned from your Appwrite DB and show it in the format `Aug 18 at 12:00 PM` (as an example), this is how I wrote the function. This is a bit different and in my opinion, cleaner and more efficient:
+
+  ```
+  const formatDate = (dateTimeString) => {
+    const localDate = new Date(dateTimeString);
+
+    const options = {
+      month: 'short', // Abbreviated month name, e.g., "Aug"
+      day: 'numeric', // Day of month, e.g., 28
+      hour: 'numeric', // Local hour
+      minute: '2-digit', // Local minutes with leading 0
+      hour12: true, // Use 12-hour format with AM/PM
+    };
+
+    // Format to locale string
+    const formatted = localDate.toLocaleString('en-US', options);
+
+    // Split and reconstruct as "month, day at time"
+    const [monthDay, time] = formatted.split(', ');
+
+    // Get date and time into a nice format
+    return `${monthDay} at ${time}`;
+  };
+  ```
 

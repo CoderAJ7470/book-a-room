@@ -1,4 +1,4 @@
-import React from 'react';
+import Link from 'next/link';
 
 const MyBookingsCard = ({ booking }) => {
   const { check_in, check_out, room_id } = booking;
@@ -15,14 +15,14 @@ const MyBookingsCard = ({ booking }) => {
       hour12: true, // Use 12-hour format with AM/PM
     };
 
-    // Format to locale string
+    // Format to locale string - returns the date in the format MMM DD, 00:00 AM or PM
     const formatted = localDate.toLocaleString('en-US', options);
 
-    // Split and reconstruct as "<Month> <Day> at <Time>"
-    const [monthDay, time] = formatted.split(', ');
+    // Split and reconstruct as "month, day at time"
+    const [monthAndDay, time] = formatted.split(', ');
 
     // Get date and time into a nice format
-    return `${monthDay} at ${time}`;
+    return `${monthAndDay} at ${time}`;
   };
 
   return (
@@ -39,12 +39,15 @@ const MyBookingsCard = ({ booking }) => {
         </p>
       </div>
       <div className='flex flex-col sm:flex-row w-full sm:w-auto sm:space-x-2 mt-2 sm:mt-0'>
-        <a
-          href='room.html'
+        <Link
+          href={{
+            pathname: `/rooms/${room_id.$id}`,
+            query: { clickedFrom: 'my-bookings' },
+          }}
           className='bg-blue-500 text-white px-4 py-2 rounded mb-2 sm:mb-0 w-full sm:w-auto text-center hover:bg-blue-700'
         >
           View Room
-        </a>
+        </Link>
         <button
           href='#'
           className='bg-red-500 text-white px-4 py-2 rounded w-full sm:w-auto text-center hover:bg-red-700 cursor-pointer'
