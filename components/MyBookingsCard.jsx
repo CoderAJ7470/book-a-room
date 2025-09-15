@@ -1,3 +1,4 @@
+import CancelBookingButton from './CancelBookingButton';
 import Link from 'next/link';
 
 const MyBookingsCard = ({ booking }) => {
@@ -48,12 +49,7 @@ const MyBookingsCard = ({ booking }) => {
         >
           View Room
         </Link>
-        <button
-          href='#'
-          className='bg-red-500 text-white px-4 py-2 rounded w-full sm:w-auto text-center hover:bg-red-700 cursor-pointer'
-        >
-          Cancel Booking
-        </button>
+        <CancelBookingButton bookingId={booking.$id} />
       </div>
     </div>
   );
