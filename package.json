@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "luxon": "^3.7.2",
     "next": "15.4.5",
     "node-appwrite": "^17.2.0",
     "react": "19.1.0",

@@ -32,8 +32,6 @@ const cancelBooking = async (bookingId) => {
       bookingId
     );
 
-    console.log('booking has: ', booking);
-
     // Check if the booking to be cancelled actually belongs to the current user
     if (booking.user_id !== user.id) {
       return {

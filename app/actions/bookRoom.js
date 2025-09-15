@@ -6,6 +6,7 @@ import { cookies } from 'next/headers';
 import { ID } from 'node-appwrite';
 import checkAuth from './checkAuth';
 import { revalidatePath } from 'next/cache';
+import checkRoomAvailability from './checkRoomAvailability';
 
 const bookRoom = async (previousState, formData) => {
   const sessionCookie = (await cookies()).get('appwrite-session');
@@ -31,18 +32,31 @@ const bookRoom = async (previousState, formData) => {
     const checkInTime = formData.get('check_in_time');
     const checkOutDate = formData.get('check_out_date');
     const checkOutTime = formData.get('check_out_time');
+    const roomId = formData.get('room_id');
 
     // Combine the above entries into ISO 8601 format (DateTime), but convert it to local time first by passing it to the Date constructor:
     const checkInDateTime = new Date(`${checkInDate}T${checkInTime}`);
     const checkOutDateTime = new Date(`${checkOutDate}T${checkOutTime}`);
 
-    console.log('cidt: ');
+    // Check if room is available for user-chosen date and time
+    const isAvailable = await checkRoomAvailability(
+      roomId,
+      checkInDateTime,
+      checkOutDateTime
+    );
+
+    if (!isAvailable) {
+      return {
+        error:
+          'The date and time you have chosen overlaps with an existing booking for this room.',
+      };
+    }
 
     const bookingData = {
       check_in: checkInDateTime,
       check_out: checkOutDateTime,
       user_id: user.id, // user is from the destructured user above from checkAuth()
-      room_id: formData.get('room_id'),
+      room_id: roomId,
     };
 
     // Create the booking
